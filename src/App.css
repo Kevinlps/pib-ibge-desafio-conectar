@@ -1,0 +1,734 @@
+/* Reset e configurações básicas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  line-height: 1.6;
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+/* Container principal da aplicação */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header da aplicação */
+.app-header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+  color: white;
+  padding: 2rem 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.header-content {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-content p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+/* Navegação entre telas */
+.screen-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  justify-content: flex-start;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button.active {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e40af;
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.nav-button.active:hover {
+  background: white;
+  color: #1d4ed8;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+}
+
+.nav-text {
+  font-weight: 600;
+}
+
+/* Área principal de conteúdo */
+.app-main {
+  flex: 1;
+  padding: 0;
+  background: #f9fafb;
+}
+
+.screen-container {
+  width: 100%;
+  height: 100%;
+}
+
+.screen-content {
+  width: 100%;
+  min-height: calc(100vh - 200px);
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estilos específicos da tela de gráfico */
+.chart-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.chart-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.chart-header h1 {
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.chart-header p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+/* Informações adicionais */
+.chart-info {
+  margin-top: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.info-card h3 {
+  color: #1f2937;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Estados de loading e erro */
+.loading-container, .error-container, .no-data-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.loading-container p, .error-container p, .no-data-container p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.error-container button:hover {
+  background: #dc2626;
+}
+
+/* Footer */
+.app-footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.footer-note {
+  opacity: 0.8;
+  font-size: 0.8rem !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .header-content h1 {
+    font-size: 2rem;
+  }
+  
+  .header-content p {
+    font-size: 1rem;
+  }
+  
+  .screen-navigation {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav-button {
+    min-width: 250px;
+    justify-content: center;
+  }
+  
+  .chart-page {
+    padding: 1rem;
+  }
+  
+  .chart-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+  }
+  
+  .chart-wrapper {
+    height: 400px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .nav-button {
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+  }
+  
+  .nav-text {
+    font-size: 0.9rem;
+  }
+  
+  .chart-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .chart-header p {
+    font-size: 1rem;
+  }
+  
+  .chart-wrapper {
+    height: 350px;
+  }
+  
+  .chart-container {
+    padding: 0.75rem;
+  }
+  
+  .info-card {
+    padding: 1rem;
+  }
+}
+
+/* Animações */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos da página de tabela */
+.table-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f9fafb;
+  min-height: calc(100vh - 200px);
+}
+
+.table-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.table-header h1 {
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.table-header p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Container da tabela */
+.table-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+/* Controles da tabela */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.table-info {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.sort-button, .header-sort-button {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-button:hover, .header-sort-button:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.header-sort-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+}
+
+.sort-icon, .sort-indicator {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.sort-icon.desc, .sort-indicator.desc {
+  transform: rotate(180deg);
+}
+
+/* Wrapper da tabela para scroll horizontal */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Estilos da tabela */
+.pib-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.pib-table thead {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.pib-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  position: relative;
+}
+
+.pib-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.pib-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.pib-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.pib-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+/* Colunas específicas */
+.year-column, .year-cell {
+  width: 15%;
+  font-weight: 600;
+}
+
+.total-column, .percapita-column {
+  width: 42.5%;
+}
+
+.year-cell strong {
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.total-cell, .percapita-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.currency-value {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.currency-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination-button {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 40px;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  margin: 0 1rem;
+}
+
+.current-page {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Resumo da tabela */
+.table-summary {
+  margin-top: 2rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+}
+
+.summary-card h3 {
+  color: #1f2937;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.summary-value {
+  color: #3b82f6;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Estados de loading, erro e sem dados */
+.table-loading, .table-error, .table-no-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  margin: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.table-loading p, .table-error p, .table-no-data p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  margin: 1rem 0;
+}
+
+.table-error button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.table-error button:hover {
+  background: #dc2626;
+}
+
+/* Responsividade da tabela */
+@media (max-width: 768px) {
+  .table-page {
+    padding: 1rem;
+  }
+  
+  .table-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .table-container {
+    padding: 1rem;
+  }
+  
+  .table-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .pib-table th, .pib-table td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .currency-value {
+    font-size: 0.9rem;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pagination {
+    gap: 0.25rem;
+  }
+  
+  .pagination-button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .table-container {
+    padding: 0.75rem;
+  }
+  
+  .pib-table {
+    font-size: 0.85rem;
+  }
+  
+  .pib-table th, .pib-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .year-cell strong {
+    font-size: 1rem;
+  }
+  
+  .currency-value {
+    font-size: 0.85rem;
+  }
+  
+  .currency-label {
+    font-size: 0.7rem;
+  }
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
