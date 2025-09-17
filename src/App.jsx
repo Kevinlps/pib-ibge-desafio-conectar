@@ -3,7 +3,7 @@ import { PibProvider } from './context/PibContext';
 import PibChart from './components/PibChart/PibChart';
 import PibTable from './components/PibTable/PibTable';
 import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header'; // Corrigido o nome da importação para Header
+import Header from './components/Header/Header';
 import './App.css';
 
 function App() {
@@ -16,7 +16,6 @@ function App() {
   return (
     <PibProvider>
       <div className="App">
-        {/* Passe as props aqui */}
         <Header 
           currentScreen={currentScreen} 
           handleScreenChange={handleScreenChange} 
