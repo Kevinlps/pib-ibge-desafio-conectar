@@ -1,0 +1,15 @@
+/* ================================
+   Footer
+================================ */
+.app-footer {
+  background: #1f2937;
+  color: #d1d5db;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer-note {
+  opacity: 0.8;
+  font-size: 0.8rem !important;
+}

@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { usePib } from "../context/PibContext";
+import { usePib } from "../../context/PibContext";
+import './PibTable.css';
 
 const ITEMS_PER_PAGE = 8;
 

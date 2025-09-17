@@ -8,7 +8,8 @@ import {
   Legend,
   Tooltip,
 } from "chart.js";
-import { usePib } from "../context/PibContext";
+import { usePib } from "../../context/PibContext";
+import './PibChart.css';
 
 // Registra os componentes necessários do Chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);

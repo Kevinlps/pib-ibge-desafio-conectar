@@ -1,0 +1,98 @@
+/* ================================
+   Tabela PIB
+================================ */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.pib-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  table-layout: fixed;
+}
+
+.pib-table th,
+.pib-table td {
+  padding: 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pib-table thead {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+.pib-table th {
+  font-weight: 600;
+  color: #374151;
+}
+
+.pib-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.pib-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+/* ======= Botões de ordenação (Tabela) ======= */
+/* Botão grande (controles acima da tabela) */
+.table-controls .sort-button {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 2px;
+  gap: 0.7rem;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.12s ease;
+}
+
+.table-controls .sort-button:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* Botão no cabeçalho da coluna (Ano) */
+.pib-table th .header-sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+/* Hover do botão do th (mantém legibilidade sem quebrar layout) */
+.pib-table th .header-sort-button:hover {
+  background: rgba(229, 231, 235, 0.6); /* #e5e7eb com transparência */
+  border-radius: 6px;
+}
+
+/* Ícone / indicador de ordenação */
+.sort-icon,
+.sort-indicator {
+  font-size: 0.8rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Estado invertido (desc) */
+.sort-icon.desc,
+.sort-indicator.desc {
+  transform: rotate(180deg);
+}
