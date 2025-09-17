@@ -106,12 +106,9 @@ src/
 ├─ components/
 │  ├─ Chart/ (PibChart)
 │  ├─ Table/ (PibTable)
-│  └─ UI/ (Button, Spinner, Card)
 ├─ context/
 │  └─ PibContext.tsx
-├─ hooks/
 ├─ pages/
-│  ├─ Home.tsx
 │  ├─ ChartPage.tsx
 │  └─ TablePage.tsx
 ├─ routes/
@@ -179,10 +176,4 @@ npm run test
 
 em breve
 
-**Vercel**:
-
-
-## Melhorias sugeridas
-
----
 
