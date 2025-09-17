@@ -4,6 +4,7 @@ import PibChart from './components/PibChart';
 import PibTable from './components/PibTable';
 import './App.css';
 
+
 function App() {
   const [currentScreen, setCurrentScreen] = useState('chart');
 
@@ -27,7 +28,7 @@ function App() {
               aria-label="Visualizar gráfico do PIB"
             >
               <span className="nav-icon">📊</span>
-              <span className="nav-text">Tela 1: Gráfico de Evolução</span>
+              <span className="nav-text">Gráfico de Evolução</span>
             </button>
             <button 
               className={`nav-button ${currentScreen === 'table' ? 'active' : ''}`}
@@ -35,7 +36,7 @@ function App() {
               aria-label="Visualizar tabela do PIB"
             >
               <span className="nav-icon">📋</span>
-              <span className="nav-text">Tela 2: Tabela por Ano</span>
+              <span className="nav-text">Tabela por Ano</span>
             </button>
           </nav>
         </header>

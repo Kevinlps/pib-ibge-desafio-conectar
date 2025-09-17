@@ -95,25 +95,32 @@ export default function PibTable() {
     <div className="table-page">
       <div className="table-header">
         <h1>Tabela de PIB por Ano</h1>
-        <p>Produto Interno Bruto brasileiro ordenado por período (valores em dólares americanos)</p>
+        <p>
+          Produto Interno Bruto brasileiro ordenado por período (valores em
+          dólares americanos)
+        </p>
       </div>
 
       <div className="table-container">
         <div className="table-controls">
           <div className="table-info">
             <span>
-              Mostrando {startIndex + 1} a {Math.min(endIndex, tableData.length)} de {tableData.length} registros
+              Mostrando {startIndex + 1} a{" "}
+              {Math.min(endIndex, tableData.length)} de {tableData.length}{" "}
+              registros
             </span>
           </div>
-          
-          <button 
+
+          <button
             className="sort-button"
             onClick={handleSortToggle}
-            title={`Ordenar por ano ${sortOrder === 'asc' ? 'decrescente' : 'crescente'}`}
+            title={`Ordenar por ano ${
+              sortOrder === "asc" ? "decrescente" : "crescente"
+            }`}
           >
             <span>Ano</span>
             <span className={`sort-icon ${sortOrder}`}>
-              {sortOrder === 'asc' ? '↑' : '↓'}
+              {sortOrder === "asc" ? "↑" : "↓"}
             </span>
           </button>
         </div>
@@ -123,13 +130,13 @@ export default function PibTable() {
             <thead>
               <tr>
                 <th className="year-column">
-                  <button 
+                  <button
                     className="header-sort-button"
                     onClick={handleSortToggle}
                   >
                     Ano
                     <span className={`sort-indicator ${sortOrder}`}>
-                      {sortOrder === 'asc' ? '↑' : '↓'}
+                      {sortOrder === "asc" ? "↑" : "↓"}
                     </span>
                   </button>
                 </th>
@@ -164,7 +171,7 @@ export default function PibTable() {
         {/* Paginação */}
         {totalPages > 1 && (
           <div className="pagination">
-            <button 
+            <button
               className="pagination-button"
               onClick={() => handlePageChange(1)}
               disabled={currentPage === 1}
@@ -172,8 +179,8 @@ export default function PibTable() {
             >
               ««
             </button>
-            
-            <button 
+
+            <button
               className="pagination-button"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -181,14 +188,14 @@ export default function PibTable() {
             >
               «
             </button>
-            
+
             <div className="pagination-info">
               <span className="current-page">
                 Página {currentPage} de {totalPages}
               </span>
             </div>
-            
-            <button 
+
+            <button
               className="pagination-button"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
@@ -196,8 +203,8 @@ export default function PibTable() {
             >
               »
             </button>
-            
-            <button 
+
+            <button
               className="pagination-button"
               onClick={() => handlePageChange(totalPages)}
               disabled={currentPage === totalPages}
@@ -218,7 +225,8 @@ export default function PibTable() {
           <div className="summary-card">
             <h3>📈 Período</h3>
             <p className="summary-value">
-              {Math.min(...tableData.map(d => d.ano))} - {Math.max(...tableData.map(d => d.ano))}
+              {Math.min(...tableData.map((d) => d.ano))} -{" "}
+              {Math.max(...tableData.map((d) => d.ano))}
             </p>
           </div>
           <div className="summary-card">
