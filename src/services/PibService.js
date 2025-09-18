@@ -41,10 +41,10 @@ export default class PibService {
         this.fetchJson(this.urlPibPerCapita)
       ]);
 
-      // PIB Total está em MILHÕES de R$ - manter assim
+
       const { anos: anosTotal, valores: pibTotal } = this.extractSeries(dataPibTotal);
       
-      // PIB per capita já está em R$ absolutos
+
       const { anos: anosPerCapita, valores: pibPerCapita } = this.extractSeries(dataPibPerCapita);
 
       const anosComuns = anosTotal.filter(ano => anosPerCapita.includes(ano));
