@@ -44,8 +44,22 @@ export default function PibTable() {
     setCurrentPage(1); // Reset para primeira página ao ordenar
   };
 
-  // Formatação monetária
+  // Formatação monetária melhorada para PIB Total (usa notação compacta customizada)
   const formatCurrency = (value) => {
+    if (value >= 1e12) {
+      // Trilhões
+      return `$${(value / 1e12).toFixed(2)}T `;
+    } else if (value >= 1e9) {
+      // Bilhões  
+      return `$${(value / 1e9).toFixed(2)}B `;
+    } else if (value >= 1e6) {
+      // Milhões
+      return `$${(value / 1e6).toFixed(2)}M `;
+    } else if (value >= 1e3) {
+      // Milhares
+      return `$${(value / 1e3).toFixed(2)}K `;
+    }
+    
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
@@ -54,12 +68,15 @@ export default function PibTable() {
     }).format(value);
   };
 
+  // Formatação para PIB per capita (usa notação compacta nativa)
   const formatCurrencyDetailed = (value) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      notation: "compact",
+      compactDisplay: "short",
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
     }).format(value);
   };
 
@@ -161,7 +178,7 @@ export default function PibTable() {
                     <span className="currency-value">
                       {formatCurrencyDetailed(row.perCapita)}
                     </span>
-                    <span className="currency-label">USD</span>
+                    <span className="currency-label"> USD</span>
                   </td>
                 </tr>
               ))}

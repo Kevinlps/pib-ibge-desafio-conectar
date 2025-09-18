@@ -1,14 +1,13 @@
-// PibContext.js - Versão com useReducer e useMemo
-
+// PibContext.js - Versão Refatorada com Novos Serviços
 import { createContext, useContext, useEffect, useCallback, useReducer, useMemo } from "react";
-import PibService from "../services/PibService";
+import EconomicDataService from "../services/EconomicDataService";
 
 // Instância única do serviço (Singleton)
-const pibService = new PibService();
+const economicDataService = new EconomicDataService();
 
 const PibContext = createContext(null);
 
-// ✨ MELHORIA: Estado inicial centralizado
+// Estado inicial centralizado
 const initialState = {
   status: 'idle', // 'idle' | 'loading' | 'success' | 'error'
   error: null,
@@ -20,7 +19,7 @@ const initialState = {
   }
 };
 
-// ✨ MELHORIA: Reducer para gerenciar as transições de estado
+// Reducer para gerenciar as transições de estado
 function pibReducer(state, action) {
   switch (action.type) {
     case 'FETCH_START':
@@ -37,29 +36,29 @@ function pibReducer(state, action) {
 export function PibProvider({ children }) {
   const [state, dispatch] = useReducer(pibReducer, initialState);
 
-  const loadPibData = useCallback(async () => {
+  const loadEconomicData = useCallback(async () => {
     dispatch({ type: 'FETCH_START' });
     try {
-      const data = await pibService.fetchPibData();
+      const data = await economicDataService.getEconomicData();
       dispatch({ type: 'FETCH_SUCCESS', payload: data });
     } catch (err) {
-      console.error("Erro ao carregar dados PIB:", err);
+      console.error("Erro ao carregar dados econômicos:", err);
       dispatch({ type: 'FETCH_ERROR', payload: err });
     }
   }, []);
 
   const clearCacheAndReload = useCallback(() => {
-    pibService.clearCache();
-    loadPibData();
-  }, [loadPibData]);
+    economicDataService.clearCache();
+    loadEconomicData();
+  }, [loadEconomicData]);
 
   useEffect(() => {
-    loadPibData();
-  }, [loadPibData]);
+    loadEconomicData();
+  }, [loadEconomicData]);
 
-  // ✨ MELHORIA: Usar useMemo para calcular dados derivados e evitar recriação do objeto de contexto
+  // useMemo para calcular dados derivados e evitar recriação do objeto de contexto
   const contextValue = useMemo(() => {
-    const { labels, pibTotal, pibPerCapita } = state.data;
+    const { labels, pibTotal, pibPerCapita, meta } = state.data;
     const hasData = labels.length > 0;
 
     const formattedData = hasData ? labels.map((year, index) => {
@@ -67,17 +66,34 @@ export function PibProvider({ children }) {
       const perCapita = pibPerCapita[index];
       return {
         ano: year,
-        pibTotalFormatted: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 2 }).format(total),
-        pibPerCapitaFormatted: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(perCapita),
+        pibTotalFormatted: new Intl.NumberFormat('pt-BR', { 
+          style: 'currency', 
+          currency: 'USD', 
+          notation: 'compact', 
+          maximumFractionDigits: 2 
+        }).format(total),
+        pibPerCapitaFormatted: new Intl.NumberFormat('pt-BR', { 
+          style: 'currency', 
+          currency: 'USD', 
+          maximumFractionDigits: 0 
+        }).format(perCapita),
+        // Valores numéricos para gráficos
+        pibTotalValue: total,
+        pibPerCapitaValue: perCapita
       };
     }) : [];
 
     const stats = hasData ? {
-      crescimentoMedioAnual: pibTotal.length > 1 ? (((pibTotal.at(-1) / pibTotal[0]) ** (1 / (pibTotal.length - 1))) - 1) * 100 : 0,
+      crescimentoMedioAnual: pibTotal.length > 1 ? 
+        (((pibTotal[pibTotal.length - 1] / pibTotal[0]) ** (1 / (pibTotal.length - 1))) - 1) * 100 : 0,
+      crescimentoUltimoAno: pibTotal.length > 1 ?
+        ((pibTotal[pibTotal.length - 1] / pibTotal[pibTotal.length - 2]) - 1) * 100 : 0,
       maiorPib: Math.max(...pibTotal),
       menorPib: Math.min(...pibTotal),
       maiorPibPerCapita: Math.max(...pibPerCapita),
       menorPibPerCapita: Math.min(...pibPerCapita),
+      pibTotalAtual: pibTotal[pibTotal.length - 1],
+      pibPerCapitaAtual: pibPerCapita[pibPerCapita.length - 1]
     } : null;
 
     return {
@@ -87,7 +103,10 @@ export function PibProvider({ children }) {
       error: state.error,
       
       // Dados Brutos
-      ...state.data,
+      labels,
+      pibTotal,
+      pibPerCapita,
+      meta,
 
       // Dados Derivados e Formatados (Memorizados)
       formattedData,
@@ -95,11 +114,11 @@ export function PibProvider({ children }) {
       hasData,
 
       // Funções
-      reload: loadPibData,
+      reload: loadEconomicData,
       clearCacheAndReload,
-      getCacheInfo: () => pibService.getCacheInfo(),
+      getCacheInfo: () => economicDataService.getCacheInfo(),
     };
-  }, [state, loadPibData, clearCacheAndReload]);
+  }, [state, loadEconomicData, clearCacheAndReload]);
 
   return (
     <PibContext.Provider value={contextValue}>
@@ -108,7 +127,7 @@ export function PibProvider({ children }) {
   );
 }
 
-// ✨ MELHORIA: Hook único e simplificado para consumir o contexto
+// Hook único e simplificado para consumir o contexto
 export function usePib() {
   const context = useContext(PibContext);
   if (!context) {
