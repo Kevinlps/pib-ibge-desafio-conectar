@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { PibProvider } from './context/PibContext';
-import PibChart from './components/PibChart/PibChart';
-import PibTable from './components/PibTable/PibTable';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import './App.css';
+import Section from './components/Section/Section';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('chart');
@@ -19,23 +18,8 @@ function App() {
         <Header 
           currentScreen={currentScreen} 
           handleScreenChange={handleScreenChange} 
-        />
-        
-        <main className="app-main">
-          <div className="screen-container">
-            {currentScreen === 'chart' && (
-              <section className="screen-content">
-                <PibChart />
-              </section>
-            )}
-
-            {currentScreen === 'table' && (
-              <section className="screen-content">
-                <PibTable />
-              </section>
-            )}
-          </div>
-        </main>
+        />   
+        <Section currentScreen={currentScreen} />
         <Footer />
       </div>
     </PibProvider>

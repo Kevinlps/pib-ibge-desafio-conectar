@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { usePib } from "../../context/PibContext";
 import './PibChart.css';
+import ChartInfo from "./ChartInfo/ChartInfo";
 
 // Registra os componentes necessários do Chart.js
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
@@ -50,7 +51,7 @@ export default function PibChart() {
       {
         label: "PIB Total (US$)",
         data: pibTotal,
-        borderColor: "#2563eb", // Azul
+        borderColor: "#2563eb", 
         backgroundColor: "rgba(37, 99, 235, 0.1)",
         tension: 0.4,
         pointStyle: 'circle',
@@ -65,7 +66,7 @@ export default function PibChart() {
       {
         label: "PIB per Capita (US$)",
         data: pibPerCapita,
-        borderColor: "#16a34a", // Verde
+        borderColor: "#16a34a", 
         backgroundColor: "rgba(22, 163, 74, 0.1)",
         tension: 0.4,
         pointStyle: 'circle',
@@ -129,6 +130,7 @@ export default function PibChart() {
               return `${label}: ${new Intl.NumberFormat("en-US", { 
                 style: "currency", 
                 currency: "USD",
+                notation: "compact",
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
               }).format(value)}`;
@@ -244,23 +246,7 @@ export default function PibChart() {
           <Line data={data} options={options} />
         </div>
       </div>
-      
-      <div className="chart-info">
-        <div className="info-grid">
-          <div className="info-card">
-            <h3>📈 PIB Total</h3>
-            <p>Representa o valor total de todos os bens e serviços produzidos no país durante um ano.</p>
-          </div>
-          <div className="info-card">
-            <h3>👥 PIB per Capita</h3>
-            <p>Indica a renda média por habitante, calculada dividindo o PIB total pela população.</p>
-          </div>
-          <div className="info-card">
-            <h3>📊 Fonte dos Dados</h3>
-            <p>Instituto Brasileiro de Geografia e Estatística (IBGE) - API de Agregados.</p>
-          </div>
-        </div>
-      </div>
+      <ChartInfo/>
     </div>
   );
 }
