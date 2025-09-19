@@ -26,7 +26,6 @@ export default class PibService {
 
     const anos = Object.keys(serie)
       .sort((a, b) => parseInt(a) - parseInt(b));
-
     const valores = anos.map(ano => {
       return this.parseNumber(serie[ano]);
     });
@@ -40,18 +39,9 @@ export default class PibService {
         this.fetchJson(this.urlPibTotal),
         this.fetchJson(this.urlPibPerCapita)
       ]);
-
-
       const { anos: anosTotal, valores: pibTotal } = this.extractSeries(dataPibTotal);
-      
-
       const { anos: anosPerCapita, valores: pibPerCapita } = this.extractSeries(dataPibPerCapita);
-
       const anosComuns = anosTotal.filter(ano => anosPerCapita.includes(ano));
-
-      console.log("PIB Total (milhões R$):", pibTotal);
-      console.log("PIB Per Capita (R$):", pibPerCapita);
-
       return {
         anos: anosComuns.map(a => parseInt(a)),
         pibTotal: anosComuns.map(ano => pibTotal[anosTotal.indexOf(ano)]),

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PibProvider } from './context/PibContext';
+import { PibProvider } from './context/PibContextProvider';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import './App.css';

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { usePib } from "../../context/PibContext";
+import { usePib } from "../../context/usePib";
 import './PibTable.css';
 
 const ITEMS_PER_PAGE = 8;
@@ -7,9 +7,7 @@ const ITEMS_PER_PAGE = 8;
 export default function PibTable() {
   const { labels, pibTotal, pibPerCapita, isLoading, isError } = usePib();
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' = mais antigo primeiro
-
-  // Combina os dados em um array de objetos
+  const [sortOrder, setSortOrder] = useState('asc'); 
   const tableData = useMemo(() => {
     if (!labels.length) return [];
 
@@ -20,19 +18,19 @@ export default function PibTable() {
       perCapita: pibPerCapita[index],
     }));
 
-    // Ordena os dados por ano conforme requisito (mais antigo para mais recente)
+    
     return data.sort((a, b) => {
       return sortOrder === 'asc' ? a.ano - b.ano : b.ano - a.ano;
     });
   }, [labels, pibTotal, pibPerCapita, sortOrder]);
 
-  // Cálculos de paginação
+  
   const totalPages = Math.ceil(tableData.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentData = tableData.slice(startIndex, endIndex);
 
-  // Handlers
+  
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -41,10 +39,9 @@ export default function PibTable() {
 
   const handleSortToggle = () => {
     setSortOrder(current => current === 'asc' ? 'desc' : 'asc');
-    setCurrentPage(1); // Reset para primeira página ao ordenar
+    setCurrentPage(1); 
   };
 
-  // Formatação monetária melhorada para PIB Total (usa notação compacta customizada)
   const formatCurrency = (value) => {
     if (value >= 1e12) {
       // Trilhões
@@ -81,14 +78,14 @@ export default function PibTable() {
   };
 
   // Estados de carregamento e erro
-  if (isLoading) {
-    return (
-      <div className="table-loading">
-        <div className="loading-spinner"></div>
-        <p>Carregando dados da tabela...</p>
-      </div>
-    );
-  }
+if (isLoading) {
+ return (
+ <div className="table-loading">
+ <div className="loading-spinner" data-testid="loading-spinner"></div>
+  <p>Carregando dados da tabela...</p>
+ </div>
+ );
+}
 
   if (isError) {
     return (

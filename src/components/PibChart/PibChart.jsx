@@ -8,12 +8,18 @@ import {
   Legend,
   Tooltip,
 } from "chart.js";
-import { usePib } from "../../context/PibContext";
-import './PibChart.css';
+import { usePib } from "../../context/usePib";
+import "./PibChart.css";
 import ChartInfo from "./ChartInfo/ChartInfo";
 
-// Registra os componentes necessários do Chart.js
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip);
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Legend,
+  Tooltip
+);
 
 export default function PibChart() {
   const { labels, pibTotal, pibPerCapita, isLoading, isError } = usePib();
@@ -22,16 +28,17 @@ export default function PibChart() {
     return (
       <div className="loading-container">
         <p>Carregando dados do PIB brasileiro...</p>
-        <div className="loading-spinner"></div>
+        <div className="loading-spinner" data-testid="loading-spinner"></div>
       </div>
     );
   }
-
   if (isError) {
     return (
       <div className="error-container">
         <p>Erro ao carregar os dados. Por favor, tente novamente mais tarde.</p>
-        <button onClick={() => window.location.reload()}>Tentar Novamente</button>
+        <button onClick={() => window.location.reload()}>
+          Tentar Novamente
+        </button>
       </div>
     );
   }
@@ -44,186 +51,184 @@ export default function PibChart() {
     );
   }
 
-  // Configuração dos dados do gráfico
   const data = {
     labels,
     datasets: [
       {
         label: "PIB Total (US$)",
         data: pibTotal,
-        borderColor: "#2563eb", 
+        borderColor: "#2563eb",
         backgroundColor: "rgba(37, 99, 235, 0.1)",
         tension: 0.4,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 5,
         pointHoverRadius: 8,
         pointBackgroundColor: "#2563eb",
         pointBorderColor: "#ffffff",
         pointBorderWidth: 2,
         borderWidth: 3,
-        yAxisID: 'y',
+        yAxisID: "y",
       },
       {
         label: "PIB per Capita (US$)",
         data: pibPerCapita,
-        borderColor: "#16a34a", 
+        borderColor: "#16a34a",
         backgroundColor: "rgba(22, 163, 74, 0.1)",
         tension: 0.4,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         pointRadius: 5,
         pointHoverRadius: 8,
         pointBackgroundColor: "#16a34a",
         pointBorderColor: "#ffffff",
         pointBorderWidth: 2,
         borderWidth: 3,
-        yAxisID: 'y1',
+        yAxisID: "y1",
       },
     ],
   };
 
-  // Configuração das opções do gráfico
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
       intersect: false,
-      mode: 'index',
+      mode: "index",
     },
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
         labels: {
           usePointStyle: true,
-          pointStyle: 'circle',
+          pointStyle: "circle",
           font: {
             size: 14,
-            weight: '500',
+            weight: "500",
           },
           padding: 20,
-          color: '#374151',
+          color: "#374151",
         },
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#e5e7eb',
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        titleColor: "#ffffff",
+        bodyColor: "#ffffff",
+        borderColor: "#e5e7eb",
         borderWidth: 1,
         cornerRadius: 6,
         displayColors: true,
         callbacks: {
-          title: function(context) {
+          title: function (context) {
             return `Ano: ${context[0].label}`;
           },
-          label: function(context) {
+          label: function (context) {
             const label = context.dataset.label;
             const value = context.parsed.y;
-            
-            if (label.includes('Total')) {
-              return `${label}: ${new Intl.NumberFormat("en-US", { 
-                style: "currency", 
+
+            if (label.includes("Total")) {
+              return `${label}: ${new Intl.NumberFormat("en-US", {
+                style: "currency",
                 currency: "USD",
                 notation: "compact",
-                maximumFractionDigits: 2
+                maximumFractionDigits: 2,
               }).format(value)}`;
             } else {
-              return `${label}: ${new Intl.NumberFormat("en-US", { 
-                style: "currency", 
+              return `${label}: ${new Intl.NumberFormat("en-US", {
+                style: "currency",
                 currency: "USD",
                 notation: "compact",
                 minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                maximumFractionDigits: 2,
               }).format(value)}`;
             }
-          }
-        }
-      }
+          },
+        },
+      },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Ano',
+          text: "Ano",
           font: {
             size: 14,
-            weight: 'bold',
+            weight: "bold",
           },
-          color: '#374151',
+          color: "#374151",
         },
         grid: {
-          color: 'rgba(0, 0, 0, 0.1)',
+          color: "rgba(0, 0, 0, 0.1)",
           drawBorder: false,
         },
         ticks: {
-          color: '#6b7280',
+          color: "#6b7280",
           font: {
             size: 12,
           },
         },
       },
       y: {
-        type: 'linear',
+        type: "linear",
         display: true,
-        position: 'left',
+        position: "left",
         title: {
           display: true,
-          text: 'PIB Total (US$)',
+          text: "PIB Total (US$)",
           font: {
             size: 14,
-            weight: 'bold',
+            weight: "bold",
           },
-          color: '#2563eb',
+          color: "#2563eb",
         },
         grid: {
-          color: 'rgba(37, 99, 235, 0.1)',
+          color: "rgba(37, 99, 235, 0.1)",
           drawBorder: false,
         },
         ticks: {
-          color: '#2563eb',
+          color: "#2563eb",
           font: {
             size: 11,
           },
-          callback: function(value) {
-            return new Intl.NumberFormat("en-US", { 
-              style: "currency", 
+          callback: function (value) {
+            return new Intl.NumberFormat("en-US", {
+              style: "currency",
               currency: "USD",
               notation: "compact",
-              maximumFractionDigits: 1
+              maximumFractionDigits: 1,
             }).format(value);
-          }
+          },
         },
       },
       y1: {
-        type: 'linear',
+        type: "linear",
         display: true,
-        position: 'right',
+        position: "right",
         title: {
           display: true,
-          text: 'PIB per Capita (US$)',
+          text: "PIB per Capita (US$)",
           font: {
             size: 14,
-            weight: 'bold',
+            weight: "bold",
           },
-          color: '#16a34a',
+          color: "#16a34a",
         },
         grid: {
           drawOnChartArea: false,
-          color: 'rgba(22, 163, 74, 0.1)',
+          color: "rgba(22, 163, 74, 0.1)",
           drawBorder: false,
         },
         ticks: {
-          color: '#16a34a',
+          color: "#16a34a",
           font: {
             size: 11,
           },
-          callback: function(value) {
-            return new Intl.NumberFormat("en-US", { 
-              style: "currency", 
+          callback: function (value) {
+            return new Intl.NumberFormat("en-US", {
+              style: "currency",
               currency: "USD",
               minimumFractionDigits: 0,
-              maximumFractionDigits: 0
+              maximumFractionDigits: 0,
             }).format(value);
-          }
+          },
         },
       },
     },
@@ -238,15 +243,18 @@ export default function PibChart() {
     <div className="chart-page">
       <div className="chart-header">
         <h1>Evolução do PIB Brasileiro</h1>
-        <p>Produto Interno Bruto Total e per Capita ao longo dos anos (valores em dólares americanos)</p>
+        <p>
+          Produto Interno Bruto Total e per Capita ao longo dos anos (valores em
+          dólares americanos)
+        </p>
       </div>
-      
+
       <div className="chart-container">
         <div className="chart-wrapper">
           <Line data={data} options={options} />
         </div>
       </div>
-      <ChartInfo/>
+      <ChartInfo />
     </div>
   );
 }

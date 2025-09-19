@@ -6,7 +6,6 @@ export default class EconomicDataService {
     this.pibService = new PibService();
     this.exchangeService = new ExchangeService();
   }
-
   async getEconomicData() {
     try {
       const pibData = await this._fetchPibData();
@@ -20,16 +19,13 @@ export default class EconomicDataService {
       throw error;
     }
   }
-
   async _fetchPibData() {
     const { anos, pibTotal, pibPerCapita, meta } = await this.pibService.fetchPibData();
-    console.log("Anos disponíveis:", anos);
     return { anos, pibTotal, pibPerCapita, meta };
   }
 
   async _fetchExchangeRates(anos) {
     const taxasCambio = await this.exchangeService.getRatesForYears("USD-BRL", anos);
-    console.log("Taxas de câmbio obtidas:", taxasCambio.length, "de", anos.length);
     return taxasCambio;
   }
 
@@ -51,17 +47,12 @@ export default class EconomicDataService {
 
   _convertToUSD(filteredData) {
     const { anos, pibTotal, pibPerCapita, exchangeRates, meta } = filteredData;
-
-
     const pibTotalUSD = pibTotal.map((valor, i) =>
       this.exchangeService.convertToUSD(valor * 1_000_000, exchangeRates[i])
     );
-
     const pibPerCapitaUSD = pibPerCapita.map((valor, i) =>
       this.exchangeService.convertToUSD(valor / 100, exchangeRates[i])
     );
-
-
     this._validateResults(anos, pibTotal, exchangeRates, pibTotalUSD);
 
     return {
@@ -72,26 +63,15 @@ export default class EconomicDataService {
       exchangeRates
     };
   }
-
-  _validateResults(anos, pibTotalOriginal, exchangeRates, pibTotalUSD) {
-    const index2017 = anos.findIndex(ano => ano === 2017);
-    
-    if (index2017 !== -1) {
-      const pibReais = pibTotalOriginal[index2017] * 1_000_000;
-      const pibUSD = pibTotalUSD[index2017];
-      const taxa = exchangeRates[index2017];
-      
-      console.log("Validação 2017:");
-      console.log(`PIB em R$: ${pibReais.toLocaleString('pt-BR')}`);
-      console.log(`PIB em USD: ${pibUSD.toLocaleString('en-US')}`);
-      console.log(`Taxa USD-BRL: ${taxa}`);
-      
-      const pibEsperado = 6_592_743_000_000;
-      const diferenca = Math.abs(pibReais - pibEsperado) / pibEsperado * 100;
-      console.log(`Diferença do valor esperado: ${diferenca.toFixed(2)}%`);
-    }
+_validateResults(anos, pibTotalOriginal) {
+  const index2017 = anos.findIndex(ano => ano === 2017);
+  
+  if (index2017 !== -1) {
+    const pibReais = pibTotalOriginal[index2017] * 1_000_000;
+    const pibEsperado = 6_592_743_000_000;
+    Math.abs(pibReais - pibEsperado) / pibEsperado * 100;
   }
-
+}
   _buildResponse(convertedData) {
     const { anos, pibTotalUSD, pibPerCapitaUSD, meta, exchangeRates } = convertedData;
     
@@ -110,11 +90,9 @@ export default class EconomicDataService {
       }
     };
   }
-
   clearCache() {
     this.exchangeService.clearCache();
   }
-
   getCacheInfo() {
     return this.exchangeService.getCacheInfo();
   }

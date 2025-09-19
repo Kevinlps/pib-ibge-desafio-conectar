@@ -1,6 +1,6 @@
 import "./Header.css";
 
-// Receba as props aqui, entre chaves {}
+
 const Header = ({ currentScreen, handleScreenChange }) => {
   return (
     <header className="app-header">
@@ -11,7 +11,6 @@ const Header = ({ currentScreen, handleScreenChange }) => {
 
       <nav className="screen-navigation">
         <button
-          // Agora ele usa as props recebidas
           className={`nav-button ${currentScreen === 'chart' ? 'active' : ''}`}
           onClick={() => handleScreenChange('chart')}
           aria-label="Visualizar gráfico do PIB"
@@ -20,7 +19,6 @@ const Header = ({ currentScreen, handleScreenChange }) => {
           <span className="nav-text">Gráfico de Evolução</span>
         </button>
         <button
-          // E aqui também
           className={`nav-button ${currentScreen === 'table' ? 'active' : ''}`}
           onClick={() => handleScreenChange('table')}
           aria-label="Visualizar tabela do PIB"
@@ -33,5 +31,4 @@ const Header = ({ currentScreen, handleScreenChange }) => {
   );
 };
 
-// Corrija a linha de export, removendo a vírgula
 export default Header;
